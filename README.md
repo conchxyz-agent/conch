@@ -74,6 +74,69 @@ docker compose up -d --build
 
 ---
 
+## CLI
+
+The `conch` CLI is built into the Docker image. Use it to validate, inspect, and scaffold `.conch` files without touching the web app.
+
+> **Windows users:** run these from PowerShell, not Git Bash. Git Bash mangles `/workspace` paths.
+
+### Commands
+
+**Validate a file** — exits 0 if valid, exits 1 with a full error list if not:
+
+```powershell
+docker compose exec api conch validate /workspace/examples/knowledge.conch
+```
+
+**Inspect a file** — human-readable breakdown of every section:
+
+```powershell
+docker compose exec api conch inspect /workspace/examples/memory.conch
+```
+
+**Generate a new conch from a template** — prints canonical JSON to stdout:
+
+```powershell
+docker compose exec api conch new knowledge --creator <your-pubkey>
+```
+
+### Templates
+
+| Name        | Required fields          | Optional fields                     |
+| ----------- | ------------------------ | ----------------------------------- |
+| `knowledge` | title, body              | source, tags, confidence            |
+| `memory`    | title, observation       | context, tags, importance           |
+| `artifact`  | name, description        | language, snippet, tags             |
+| `note`      | title, content           | tags                                |
+
+### Dev workflow
+
+```powershell
+# 1. Scaffold a new conch
+docker compose exec api conch new knowledge --creator abc123 > my.conch
+
+# 2. Edit the file — fill in the empty required fields
+#    "title": ""  →  "title": "Your title here"
+#    "body": ""   →  "body":  "Your content here"
+
+# 3. Validate your edits
+docker compose exec api conch validate /workspace/my.conch
+
+# 4. Repeat until clean, then use the file
+```
+
+### Reference examples
+
+Three complete, valid example conches are in the `examples/` directory:
+
+| File                       | Type      | Demonstrates                    |
+| -------------------------- | --------- | ------------------------------- |
+| `examples/knowledge.conch` | knowledge | Article with confidence score   |
+| `examples/memory.conch`    | memory    | Agent observation with context  |
+| `examples/artifact.conch`  | artifact  | Code snippet with language tag  |
+
+---
+
 ## API Reference
 
 ### Core Conch Endpoints
@@ -131,14 +194,15 @@ backend/src/
 
 ## Roadmap
 
-| Milestone       | Status  | Description                                    |
-| --------------- | ------- | ---------------------------------------------- |
-| M1 — Parser     | Done    | Parse, validate, build ConchObjects            |
-| M2 — Writer     | Done    | Canonical serialization + round-trip guarantee |
-| M3 — Storage    | Planned | Store validated ConchObjects in Postgres       |
-| M4 — Signatures | Planned | Ed25519 signing over canonical bytes           |
-| M5 — Flesh      | Planned | Private encrypted memory inside a conch        |
-| M6 — Pearl      | Planned | Immutable provenance history                   |
+| Milestone              | Status  | Description                                    |
+| ---------------------- | ------- | ---------------------------------------------- |
+| M1 — Parser            | Done    | Parse, validate, build ConchObjects            |
+| M2 — Writer            | Done    | Canonical serialization + round-trip guarantee |
+| M3 — Reference Library | Done    | CLI tool, example conches, schema templates    |
+| M4 — Storage           | Planned | Store validated ConchObjects in Postgres       |
+| M5 — Signatures        | Planned | Ed25519 signing over canonical bytes           |
+| M6 — Flesh             | Planned | Private encrypted memory inside a conch        |
+| M7 — Pearl             | Planned | Immutable provenance history                   |
 
 ---
 
