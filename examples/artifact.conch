@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "id": "9a4d7f3c-2b6e-4a1d-c8f4-5e3b9d1a6c2f",
+    "version": 1,
+    "created_at": "2026-06-01T00:00:00Z",
+    "creator": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+    "conch_version": "0.1"
+  },
+  "schema": {
+    "version": 1,
+    "fields": {
+      "description": {
+        "type": "string",
+        "required": true,
+        "description": "What this artifact does"
+      },
+      "language": {
+        "type": "string",
+        "required": false,
+        "description": "Programming language"
+      },
+      "name": {
+        "type": "string",
+        "required": true,
+        "description": "Artifact name"
+      },
+      "snippet": {
+        "type": "string",
+        "required": false,
+        "description": "Key code or content snippet"
+      },
+      "tags": {
+        "type": "array",
+        "required": false,
+        "description": "Topic tags"
+      }
+    }
+  },
+  "data": {
+    "description": "Parses a raw JSON string into a typed ConchObject, validating all five required sections and enforcing UUID v4 format on the meta.id field.",
+    "language": "Rust",
+    "name": "parse_conch",
+    "snippet": "pub fn parse_conch(json: &str) -> Result<ConchObject, ConchError>",
+    "tags": ["rust", "parser", "conch", "core"]
+  },
+  "permissions": {
+    "read": ["*"],
+    "write": ["a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"],
+    "admin": ["a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"]
+  },
+  "history": [
+    {
+      "timestamp": "2026-06-01T00:00:00Z",
+      "action": "created",
+      "actor": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+      "diff": {}
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "id": "7c9e2a1b-4f3d-4b8e-a6c2-1d0f5e7b3a9c",
+    "version": 1,
+    "created_at": "2026-06-01T00:00:00Z",
+    "creator": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+    "conch_version": "0.1"
+  },
+  "schema": {
+    "version": 1,
+    "fields": {
+      "body": {
+        "type": "string",
+        "required": true,
+        "description": "Full explanation of the concept"
+      },
+      "confidence": {
+        "type": "number",
+        "required": false,
+        "description": "Confidence score 0–10"
+      },
+      "source": {
+        "type": "string",
+        "required": false,
+        "description": "Origin or reference for this knowledge"
+      },
+      "tags": {
+        "type": "array",
+        "required": false,
+        "description": "Topic tags"
+      },
+      "title": {
+        "type": "string",
+        "required": true,
+        "description": "Human-readable title"
+      }
+    }
+  },
+  "data": {
+    "body": "Deterministic serialization means the same logical object always produces byte-for-byte identical output. In CONCH, this is achieved by using BTreeMap for all key-value fields (keys sort alphabetically) and declaring struct fields in canonical section order (meta, schema, data, permissions, history).",
+    "confidence": 9,
+    "source": "CONCH Platform — Milestone 2",
+    "tags": ["serialization", "determinism", "conch", "rust"],
+    "title": "Deterministic Serialization in CONCH"
+  },
+  "permissions": {
+    "read": ["*"],
+    "write": ["a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"],
+    "admin": ["a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"]
+  },
+  "history": [
+    {
+      "timestamp": "2026-06-01T00:00:00Z",
+      "action": "created",
+      "actor": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+      "diff": {}
+    }
+  ]
+}

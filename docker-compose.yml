@@ -47,6 +47,8 @@ services:
       REDIS_URL: redis://redis:6379
       PORT: "3000"
       JWT_SECRET: conch-jwt-secret-change-in-production
+    volumes:
+      - .:/workspace:ro
     depends_on:
       postgres:
         condition: service_healthy

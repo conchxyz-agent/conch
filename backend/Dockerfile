@@ -18,13 +18,17 @@ RUN rustup update
 COPY Cargo.toml Cargo.lock ./
 
 # Build dependencies first (for caching)
-RUN mkdir src && echo "fn main() {}" > src/main.rs && echo "" > src/lib.rs
+# Stub all binary entry points so Cargo can resolve the full dependency graph
+RUN mkdir -p src/bin \
+    && echo "fn main() {}" > src/main.rs \
+    && echo "" > src/lib.rs \
+    && echo "fn main() {}" > src/bin/conch.rs
 RUN cargo build --release
 RUN rm -rf src
 
 # Copy source and rebuild (touch forces Cargo to recompile)
 COPY src ./src
-RUN touch src/main.rs src/lib.rs && cargo build --release
+RUN touch src/main.rs src/lib.rs src/bin/conch.rs && cargo build --release
 
 # Production image
 FROM debian:bookworm-slim
@@ -38,8 +42,9 @@ RUN apt-get update && apt-get install -y \
 # Create non-root user
 RUN useradd -m -u 1000 conch
 
-# Copy binary
+# Copy binaries
 COPY --from=builder /app/target/release/conch-server /usr/local/bin/conch-server
+COPY --from=builder /app/target/release/conch /usr/local/bin/conch
 
 # Switch to non-root user
 USER conch
