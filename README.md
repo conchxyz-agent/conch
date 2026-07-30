@@ -192,6 +192,73 @@ backend/src/
 
 ---
 
+## Agent Integration (Milestone 4)
+
+The `conch-agent` binary connects a local Ollama LLM to the CONCH format. It reads a `.conch` file, reasons over its contents, and writes a new `.conch` file containing the model's synthesis — no cloud, no API keys, no backend server.
+
+### Prerequisites
+
+Install [Ollama](https://ollama.com) on your machine and pull a model:
+
+```powershell
+# Install from https://ollama.com/download, then:
+ollama pull llama3.2
+```
+
+Verify it is running:
+
+```powershell
+ollama list
+# Should show: llama3.2   ...
+```
+
+> Ollama listens on `localhost:11434` by default. The Docker container reaches it via `host.docker.internal:11434`.
+
+### Running the agent
+
+```powershell
+docker compose exec api conch-agent \
+  --input  /workspace/examples/memory.conch \
+  --output /workspace/examples/synthesis.conch
+```
+
+The agent will:
+1. Read and validate the input conch
+2. Build a structured prompt from the schema + data
+3. Send the prompt to llama3.2 via Ollama
+4. Write the LLM's insight as a new conch to the output path
+
+**Options:**
+
+| Flag | Default | Description |
+| --- | --- | --- |
+| `--input` | required | Path to the source `.conch` file |
+| `--output` | required | Path where the synthesis conch will be written |
+| `--model` | `llama3.2` | Any Ollama model you have pulled |
+| `--ollama` | `http://host.docker.internal:11434` | Ollama base URL |
+| `--agent-id` | `conch-agent-v1` | Identity stamped as `creator` in the output conch |
+
+**Example output (`synthesis.conch`):**
+
+```json
+{
+  "meta": { "creator": "conch-agent-v1", "conch_version": "1.0" },
+  "data": {
+    "title": "Synthesis: Agent Memory Experiment",
+    "synthesis": "Shared representations between agents act as an implicit communication channel, enabling 40% efficiency gains without explicit coordination protocols.",
+    "source_conch": "<id of the input conch>",
+    "model": "llama3.2",
+    "tags": ["agent", "synthesis", "local"]
+  }
+}
+```
+
+The output is a fully valid ConchObject — it carries its own ID, creator, schema, permissions, and history entry. Another agent or human can pick it up with no extra context.
+
+> **Windows note:** run all `docker compose exec` commands from PowerShell, not Git Bash. Git Bash mangles `/workspace` paths.
+
+---
+
 ## Roadmap
 
 | Milestone              | Status  | Description                                    |
@@ -199,10 +266,11 @@ backend/src/
 | M1 — Parser            | Done    | Parse, validate, build ConchObjects            |
 | M2 — Writer            | Done    | Canonical serialization + round-trip guarantee |
 | M3 — Reference Library | Done    | CLI tool, example conches, schema templates    |
-| M4 — Storage           | Planned | Store validated ConchObjects in Postgres       |
-| M5 — Signatures        | Planned | Ed25519 signing over canonical bytes           |
-| M6 — Flesh             | Planned | Private encrypted memory inside a conch        |
-| M7 — Pearl             | Planned | Immutable provenance history                   |
+| M4 — Agent Integration | Done    | Local LLM agent loop via Ollama                |
+| M5 — Storage           | Planned | Store validated ConchObjects in Postgres       |
+| M6 — Signatures        | Planned | Ed25519 signing over canonical bytes           |
+| M7 — Flesh             | Planned | Private encrypted memory inside a conch        |
+| M8 — Pearl             | Planned | Immutable provenance history                   |
 
 ---
 

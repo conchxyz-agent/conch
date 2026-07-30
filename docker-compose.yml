@@ -48,7 +48,7 @@ services:
       PORT: "3000"
       JWT_SECRET: conch-jwt-secret-change-in-production
     volumes:
-      - .:/workspace:ro
+      - .:/workspace
     depends_on:
       postgres:
         condition: service_healthy

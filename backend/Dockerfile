@@ -22,13 +22,14 @@ COPY Cargo.toml Cargo.lock ./
 RUN mkdir -p src/bin \
     && echo "fn main() {}" > src/main.rs \
     && echo "" > src/lib.rs \
-    && echo "fn main() {}" > src/bin/conch.rs
+    && echo "fn main() {}" > src/bin/conch.rs \
+    && echo "fn main() {}" > src/bin/agent.rs
 RUN cargo build --release
 RUN rm -rf src
 
 # Copy source and rebuild (touch forces Cargo to recompile)
 COPY src ./src
-RUN touch src/main.rs src/lib.rs src/bin/conch.rs && cargo build --release
+RUN touch src/main.rs src/lib.rs src/bin/conch.rs src/bin/agent.rs && cargo build --release
 
 # Production image
 FROM debian:bookworm-slim
@@ -45,6 +46,7 @@ RUN useradd -m -u 1000 conch
 # Copy binaries
 COPY --from=builder /app/target/release/conch-server /usr/local/bin/conch-server
 COPY --from=builder /app/target/release/conch /usr/local/bin/conch
+COPY --from=builder /app/target/release/conch-agent /usr/local/bin/conch-agent
 
 # Switch to non-root user
 USER conch

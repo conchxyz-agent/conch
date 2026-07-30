@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "id": "867c823f-af33-443b-8471-3382ceadbd42",
+    "version": 1,
+    "created_at": "2026-07-30T22:06:38.027636747+00:00",
+    "creator": "conch-agent-v1",
+    "conch_version": "0.1"
+  },
+  "schema": {
+    "version": 1,
+    "fields": {
+      "model": {
+        "type": "string",
+        "required": false,
+        "description": "Local model used for reasoning"
+      },
+      "source_conch": {
+        "type": "string",
+        "required": false,
+        "description": "ID of the conch this was derived from"
+      },
+      "synthesis": {
+        "type": "string",
+        "required": true,
+        "description": "Agent's synthesized insight"
+      },
+      "tags": {
+        "type": "array",
+        "required": false,
+        "description": "Topic tags"
+      },
+      "title": {
+        "type": "string",
+        "required": true,
+        "description": "Knowledge title"
+      }
+    }
+  },
+  "data": {
+    "model": "llama3.2",
+    "source_conch": "3b8f1d2e-5a7c-4e9b-b3d1-8c2f6a4e0b7d",
+    "synthesis": "Core Insight: Independent agents can achieve significant improvements in task completion time through implicit coordination when they share a common representation of their task graph. This emergent behavior suggests that decentralized, autonomous systems can exhibit coordinated behavior without explicit communication or centralized control. Remembered insight: Shared representations can act as an implicit communication channel, enabling decentralized agents to optimize performance and complete tasks more efficiently.",
+    "tags": [
+      "agent",
+      "synthesis",
+      "local"
+    ],
+    "title": "Synthesis: Emergent Coordination via Shared Representations"
+  },
+  "permissions": {
+    "read": [
+      "*"
+    ],
+    "write": [
+      "conch-agent-v1"
+    ],
+    "admin": [
+      "conch-agent-v1"
+    ]
+  },
+  "history": [
+    {
+      "timestamp": "2026-07-30T22:06:38.027636747+00:00",
+      "action": "created",
+      "actor": "conch-agent-v1",
+      "diff": {}
+    }
+  ]
+}
